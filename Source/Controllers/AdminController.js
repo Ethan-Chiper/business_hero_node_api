@@ -9,30 +9,13 @@ const Controllers = {
 	 */
 	signUp: async (request) => {
 		try {
-			let data = request.body;
+			let data = request?.body;
 
 			let adminData = {
 				admin_id: getNanoId(),
-				name: {
-					full: data?.name?.full
-				},
-				phone: {
-					country_code: data?.phone?.country_code ?? '+91',
-					national_number: data?.phone?.national_number ?? '',
-					is_verified: data?.phone?.is_verified ?? false,
-					otp: 123456
-				},
-				last_login: {
-					from: data?.last_login?.from ?? 'web',
-					meta: data?.last_login?.meta ?? ''
-				},
-				email: data?.email ?? '',
-				verification_code: data?.verification_code ?? '',
-				role: data?.role ?? true,
-				is_verified: data?.is_verified ?? false,
-				password: 1234,
-				acc_type: data?.acc_type ?? 'super-admin',
-				status: data?.status ?? 'approved'
+				title: data?.title ?? '',
+				description: data?.description?? '',
+				status: data?.status
 			};
 
 			let admin = await createAdmin(adminData);
