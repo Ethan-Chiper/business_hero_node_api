@@ -76,6 +76,40 @@ const utils = {
 		}
 	},
 	/**
+	 * VerifyToken
+	 * @param {*} req 
+	 * @param {*} res 
+	 * @param {*} next 
+	 * @returns 
+	 */
+	VerifyToken: async (req, res, next) => {
+        try {
+            if (!req.headers.authorization) throw new Error('Provide a valid JWT Token');
+
+            const token = req.headers.authorization?.split(' ')[1];
+
+            jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+                if (err) {
+                    return res.json({ status: 401, message: 'Invalid Token' });
+                } else {
+                    let loggedUser = { _id: decoded.user_id };
+
+                    const userExist = await userModel.findOne({
+                        _id: new ObjectId(loggedUser._id)
+                    });
+
+                    if (!userExist) {
+                        return res.json({ status: 401, message: 'UnAuthorized User' });
+                    }
+                    req.loggedUser = decoded;
+                    next();
+                }
+            });
+        } catch (error) {
+            return res.json({ status: 401, message: error.message });
+        }
+    },
+	/**
 	 * Function for checking whether the data is empty
 	 * @param data
 	 * @returns {boolean}
