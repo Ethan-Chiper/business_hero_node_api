@@ -22,6 +22,11 @@ const AdminQuery = {
 		return admin[0];
 	},
 
+	updateAdmin: async (condition, projection) => {
+        if (isEmpty(projection)) projection = { new: true };
+        return await AdminModel.findOneAndUpdate(condition, projection);
+    },
+
 	//For testing purpose
 	deleteAdmin: async (condition, options) => {
 		if (isEmpty(condition)) return;
