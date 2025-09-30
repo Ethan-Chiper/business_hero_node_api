@@ -19,6 +19,6 @@
     "mongoose-timestamp": "^0.6.0",
     "nanoid": "^3.3.4",
     "request": "^2.88.2",
-    "sonarqube-scanner": "^4.3.0"
+    "sonarqube-scanner": "^4.3.2"
   }
 }
